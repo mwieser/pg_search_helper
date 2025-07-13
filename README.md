@@ -147,10 +147,10 @@ The following benchmarks were run against the sample `employees` database (300,0
 
 | Benchmark Case                               | Helper Function Time (ms) | Manual Clause Time (ms) |
 |----------------------------------------------|---------------------------|-------------------------|
-| Single word, exact match (`ILIKE`)           | 1347.10                   | 2.14                    |
-| Single word, fuzzy match (`word_similarity`) | 2453.33                   | 552.74                  |
-| Multi-word, concatenated column              | 3198.22                   | 979.82                  |
-| Multi-word, multi-column                     | 5232.00                   | 1144.10                 |
+| Single word, exact match (`ILIKE`)           | 1363                      | 4                       |
+| Single word, fuzzy match (`word_similarity`) | 2453                      | 553                     |
+| Multi-word, concatenated column              | 3198                      | 979                     |
+| Multi-word, multi-column                     | 5233                      | 1144                    |
 
 As shown, using the helper functions incurs a performance cost compared to manually constructed `WHERE` clauses that the query planner can better optimize. The functions are provided for convenience, while the `build_*_clause` helpers are for performance-critical paths.
 
