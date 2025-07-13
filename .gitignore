@@ -1,0 +1,24 @@
+# based on https://github.com/github/gitignore/blob/master/Go.gitignore
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# temporary files
+tmp
+
+# mac specific
+.DS_Store
+
+# go debug / delve
+__debug_bin
+
+# we support overloading ENV vars by parsing a dotenv formatted file
+# this file can be used for local testing (secrets!) but should never be commited into git
+.env.local
+
+# the postAttachCommand should clean this up, ensure it's not commited anyway
+.gitconfig.global
