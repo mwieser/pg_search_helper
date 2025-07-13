@@ -14,6 +14,15 @@ While `pg_trgm` offers fuzzy matching, these helper methods builds upon it to pr
 - Helper functions to generate dynamic `WHERE` clauses for use in your application code.
 - Simple setup using Docker Compose for a ready-to-use development environment.
 
+## Who is this for?
+- You have a PostgreSQL database and want a simple way to search across multiple text fields
+- You need to perform fuzzy searches with tolerance for typos
+- You want to avoid the complexity of elasticsearch or other external search engines
+- You want to enhance your PostgreSQL search capabilities without writing complex SQL queries
+- You have less than 100,000 rows of data and need a simple search solution
+
+Also checkout the [pg_search](https://github.com/paradedb/paradedb) repository by ParadeDB for a more advanced search solution that integrates with PostgreSQL.
+
 ## ⚠️ Security Warning: SQL Injection
 The `build_*_clause` functions are helpers designed to generate SQL query fragments. The generated fragments are **not inherently safe** from SQL injection if user input is not properly sanitized before being passed to these functions.
 
@@ -132,6 +141,18 @@ A brief overview of the available functions. For details on parameters, see the 
 | `build_match_query_clause` | Builds a `WHERE` clause for a single column search. |
 | `build_multi_match_query_clause` | Builds a `WHERE` clause for a multi-column search. |
 | `calculate_optimal_similarity_threshold` | Helper to determine the `pg_trgm` similarity threshold based on typos. |
+
+## Performance Benchmarks
+The following benchmarks were run against the sample `employees` database (300,024 rows). The times represent the `Execution Time` from `EXPLAIN ANALYZE`.
+
+| Benchmark Case                               | Helper Function Time (ms) | Manual Clause Time (ms) |
+|----------------------------------------------|---------------------------|-------------------------|
+| Single word, exact match (`ILIKE`)           | 1347.10                   | 2.14                    |
+| Single word, fuzzy match (`word_similarity`) | 2453.33                   | 552.74                  |
+| Multi-word, concatenated column              | 3198.22                   | 979.82                  |
+| Multi-word, multi-column                     | 5232.00                   | 1144.10                 |
+
+As shown, using the helper functions incurs a performance cost compared to manually constructed `WHERE` clauses that the query planner can better optimize. The functions are provided for convenience, while the `build_*_clause` helpers are for performance-critical paths.
 
 ## Development
 The included `Dockerfile` and `docker-compose.yml` are configured for use with VS Code Remote - Containers. This provides a consistent development environment. Simply open the folder in a container and you're ready to go.
