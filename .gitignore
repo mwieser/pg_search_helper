@@ -22,3 +22,6 @@ __debug_bin
 
 # the postAttachCommand should clean this up, ensure it's not commited anyway
 .gitconfig.global
+
+# test data files
+*.gz
